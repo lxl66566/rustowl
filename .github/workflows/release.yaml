@@ -37,3 +37,24 @@ jobs:
             ./vscode/**/*.vsix
             ./rustowl/install.sh
           draft: true
+
+  binary:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: test build rust project
+        uses: lxl66566/rust-simple-release@v0.2.4
+        with:
+          targets: |
+            aarch64-unknown-linux-gnu
+            aarch64-unknown-linux-musl
+            x86_64-pc-windows-msvc
+            x86_64-unknown-linux-musl
+            x86_64-unknown-linux-gnu
+            aarch64-apple-darwin
+            x86_64-apple-darwin
+
+          token: ${{ secrets.GH_TOKEN }}
